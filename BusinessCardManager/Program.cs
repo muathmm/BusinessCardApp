@@ -53,11 +53,13 @@ public class Program
         app.UseCors("AllowAngularApp");
 
         // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
+        // Remove the environment check to always enable Swagger
+        app.UseSwagger();
+        app.UseSwaggerUI(c =>
         {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "BusinessCardManager API V1");
+            c.RoutePrefix = string.Empty; // Makes Swagger available at the root URL
+        });
 
         app.UseHttpsRedirection();
         app.UseAuthorization();
